@@ -36,7 +36,7 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private Share[] library;
+    private ArrayList<Share> library;
     private Settings currentSettings;
     private int id;
 
