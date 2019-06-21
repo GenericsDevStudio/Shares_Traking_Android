@@ -1,8 +1,8 @@
 package com.example.shares_traking_android.model;
 
-public class Action {
+public class Share {
 
-    Action(String company, double price, double lastPrice){
+    Share(String company, double price, double lastPrice){
         this.company = company;
         this.price = price;
         this.lastPrice = lastPrice;

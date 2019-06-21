@@ -1,12 +1,10 @@
 package com.example.shares_traking_android.model;
 
-import com.example.shares_traking_android.network.Resources;
-
 public class User {
 
-    // DEFAULT CONSTRUCTOR
+    // FULL-STACK CONSTRUCTOR
 
-    User(String name, String email, String password, Action[] library, Settings currentSettings, int id){
+    User(String name, String email, String password, Share[] library, Settings currentSettings, int id){
         this.name = name;
         this.email = email;
         this.password = password;
@@ -38,7 +36,7 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private Action[] library;
+    private Share[] library;
     private Settings currentSettings;
     private int id;
 
@@ -48,7 +46,7 @@ public class User {
 
     public String getPassword() { return password; }
 
-    public Action[] getLibrary() { return library; }
+    public Share[] getLibrary() { return library; }
 
     public Settings getCurrentSettings() { return currentSettings; }
 
