@@ -46,7 +46,7 @@ public class User {
 
     public String getPassword() { return password; }
 
-    public Share[] getLibrary() { return library; }
+    public ArrayList<Share> getLibrary() { return library; }
 
     public Settings getCurrentSettings() { return currentSettings; }
 
