@@ -26,7 +26,7 @@ public interface Link {
             @Field("password") String password
     );
 
-    @PUT("users/:{id}?")
+    @PUT("users/{id}?")
     Call<Object> updateUser(
             @Path("id") int id,
             @Field("name") String name,
@@ -34,12 +34,12 @@ public interface Link {
             @Field("password") String password
     );
 
-    @GET("users/:{id}?")
+    @GET("users/{id}?")
     Call<Object> getUser(
             @Path("id") int id
     );
 
-    @DELETE("users/:{id}?")
+    @DELETE("users/{id}?")
     Call<Object> deleteUser(
             @Path("id") int id
     );
@@ -49,4 +49,10 @@ public interface Link {
 
     @GET("shares/companies")
     Call<Object> getCompanies();
+
+    @POST("users/{id}/favorites?")
+    Call<Object> createFavorite(
+        @Path("user_id") int user_id,
+        @Field("share_id") int share_id
+    );
 }

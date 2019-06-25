@@ -2,17 +2,12 @@ package com.example.shares_traking_android.network;
 
 import android.os.CountDownTimer;
 import android.util.Log;
+
+import com.example.shares_traking_android.model.Company;
 import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -209,7 +204,7 @@ public class Resources {
         // GET SHARES
 
         // !! UPDATES USER LIBRARY !! //
-        // RETURNS NULL ON FAILURE !! //
+        // !! RETURNS NULL ON FAILURE !! //
 
         public static Share[] getShares(){
                 shares = null;
@@ -252,6 +247,52 @@ public class Resources {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET COMPANIES
-        //
-        
+
+        // !! RETURNS NULL ON FAILURE !! //
+        // UPDATES NOTHING //
+
+        public static Company[] getCompanies(){
+                return null;
+                // TODO
+                // Waiting for server method fix :3
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // CREATE FAVORITE
+
+        // !! RETURNS NULL ON FAILURE, TRUE IF CREATED AND FALSE IF NOT!! //
+        // UPDATES NOTHING //
+
+        public static Boolean createFavorite(int user_id, int share_id){
+                checker = null;
+                Call<Object> call = link.createFavorite(user_id, share_id);
+                call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                                checker = true;
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                                checker = false;
+                        }
+                });
+                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                                if(checker != null){
+                                        Log.d("RESOURCES - ", "FAVORITE CREATED? " + checker.toString());
+                                        cancel();
+                                }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
+                                cancel();
+                        }
+                };
+                waitForResponse.start();
+                return checker;
+        }
 }
