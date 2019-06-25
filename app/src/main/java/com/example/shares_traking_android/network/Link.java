@@ -50,9 +50,15 @@ public interface Link {
     @GET("shares/companies")
     Call<Object> getCompanies();
 
-    @POST("users/{id}/favorites?")
+    @POST("users/{user_id}/favorites?")
     Call<Object> createFavorite(
         @Path("user_id") int user_id,
         @Field("share_id") int share_id
+    );
+
+    @DELETE("users/{user_id}/favorites/remove?")
+    Call<Object> removeFavorite(
+            @Path("user_id") int user_id,
+            @Field("share_id") int share_id
     );
 }

@@ -295,4 +295,44 @@ public class Resources {
                 waitForResponse.start();
                 return checker;
         }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // REMOVE FAVORITE
+
+        // !! RETURNS NULL ON FAILURE, TRUE IF REMOVED AND FALSE IF NOT!! //
+        // UPDATES NOTHING //
+
+        public static Boolean removeFavorite(int user_id, int share_id){
+                checker = null;
+                Call<Object> call = link.removeFavorite(user_id, share_id);
+                call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                                checker = true;
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                                checker = false;
+                        }
+                });
+                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                                if(checker != null){
+                                        Log.d("RESOURCES - ", "FAVORITE CREATED? " + checker.toString());
+                                        cancel();
+                                }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
+                                cancel();
+                        }
+                };
+                waitForResponse.start();
+                return checker;
+        }
+
 }
