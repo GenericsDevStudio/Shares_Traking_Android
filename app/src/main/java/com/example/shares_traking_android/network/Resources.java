@@ -203,7 +203,7 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET SHARES
 
-        // !! UPDATES USER LIBRARY !! //
+        // UPDATES NOTHING //
         // !! RETURNS NULL ON FAILURE !! //
 
         public static Share[] getShares(){
@@ -239,9 +239,6 @@ public class Resources {
                         }
                 };
                 waitForResponse.start();
-                if(shares != null){
-                        currentUser.setLibrary(shares);
-                }
                 return shares;
         }
 
@@ -320,7 +317,7 @@ public class Resources {
                         @Override
                         public void onTick(long millisUntilFinished) {
                                 if(checker != null){
-                                        Log.d("RESOURCES - ", "FAVORITE CREATED? " + checker.toString());
+                                        Log.d("RESOURCES - ", "FAVORITE REMOVED? " + checker.toString());
                                         cancel();
                                 }
                         }
@@ -333,6 +330,50 @@ public class Resources {
                 };
                 waitForResponse.start();
                 return checker;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // GET FAVORITE SHARES
+
+        // !! RETURNS NULL ON FAILURE !! //
+        // UPDATES CURRENT USER LIBRARY //
+
+        public static Share[] getFavoriteShares(int user_id){
+                shares = null;
+                checker = null;
+                Call<Object> call = link.getFavoriteShares(user_id);
+                call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                                shares = gson.fromJson(response.body().toString(), Share[].class);
+                                checker = true;
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                                shares = null;
+                                checker = false;
+                        }
+                });
+                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                                if(checker != null){
+                                        Log.d("RESOURCES - ", "FAVORITES GOT? " + checker.toString());
+                                }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
+                                cancel();
+                        }
+                };
+                waitForResponse.start();
+                if(shares != null){
+                        currentUser.setLibrary(shares);
+                }
+                return shares;
         }
 
 }

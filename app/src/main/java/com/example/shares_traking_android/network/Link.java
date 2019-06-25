@@ -61,4 +61,9 @@ public interface Link {
             @Path("user_id") int user_id,
             @Field("share_id") int share_id
     );
-}
+
+    @GET("users/{user_id}/favorites")
+    Call<Object> getFavoriteShares(
+        @Path("user_id") int user_id
+    );
+ }
