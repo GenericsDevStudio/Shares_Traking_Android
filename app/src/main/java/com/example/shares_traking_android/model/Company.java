@@ -28,4 +28,8 @@ public class Company {
     public String getSymbol() { return symbol; }
 
     public ImageView getLogo() { return logo; }
+
+    // LOGO SETTER //
+
+    public void setLogo(ImageView logo) { this.logo = logo; }
 }

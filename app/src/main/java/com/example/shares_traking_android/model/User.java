@@ -68,4 +68,9 @@ public class User {
         sharesLibrary.clear();
         sharesLibrary.addAll(Arrays.asList(shares));
     }
+
+    public void setCompaniesLibrary(Company[] companies) {
+        companiesLibrary.clear();
+        companiesLibrary.addAll(Arrays.asList(companies));
+    }
 }

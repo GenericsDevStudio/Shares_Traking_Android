@@ -66,4 +66,9 @@ public interface Link {
     Call<Object> getFavoriteShares(
         @Path("user_id") int user_id
     );
+
+    @GET("users/{user_id}/favorites/companies")
+    Call<Object> getFavoriteCompanies(
+            @Path("user_id") int user_id
+    );
  }

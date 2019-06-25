@@ -24,6 +24,7 @@ public class Resources {
         //
         private static Boolean checker;
         private static Share[] shares;
+        private static Company[] companies;
         //
         private static final String SERVER_URL = "https://peaceful-springs-30870.herokuapp.com/api/v1/";
         private static Gson gson = new GsonBuilder().create();
@@ -120,7 +121,7 @@ public class Resources {
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-        // UPDATE
+        // UPDATE USER
 
         // !! RETURNS NULL ON FAILURE, TRUE IF UPDATED & FALSE IF NOT !! //
         // !! UPDATES CURRENT USER !! //
@@ -161,7 +162,7 @@ public class Resources {
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-        // DELETE
+        // DELETE USER
 
         // !! RETURNS NULL ON FAILURE, TRUE IF DELETED, FALSE IF NOT //
 
@@ -336,7 +337,7 @@ public class Resources {
         // GET FAVORITE SHARES
 
         // !! RETURNS NULL ON FAILURE, ARRAY ALSO CAN BE NULL !! //
-        // UPDATES CURRENT USER LIBRARY //
+        // UPDATES CURRENT USER SHARES LIBRARY //
 
         public static Share[] getFavoriteShares(int user_id){
                 shares = null;
@@ -359,7 +360,8 @@ public class Resources {
                         @Override
                         public void onTick(long millisUntilFinished) {
                                 if(checker != null){
-                                        Log.d("RESOURCES - ", "FAVORITES GOT? " + checker.toString());
+                                        Log.d("RESOURCES - ", "FAVORITE SHARES GOT? " + checker.toString());
+                                        cancel();
                                 }
                         }
 
@@ -371,7 +373,7 @@ public class Resources {
                 };
                 waitForResponse.start();
                 if(shares != null){
-                        currentUser.setLibrary(shares);
+                        currentUser.setSharesLibrary(shares);
                 }
                 return shares;
         }
@@ -380,6 +382,43 @@ public class Resources {
         // GET FAVORITE COMPANIES
 
         // !! RETURNS NULL ON FAILURE, ARRAY ALSO CAN BE NULL !! //
-        // UPDATES CURRENT USER LIBRARY //
+        // UPDATES CURRENT USER COMPANIES LIBRARY //
 
+        public static Company[] getFavoriteCompanies(int user_id){
+                companies = null;
+                checker = null;
+                Call<Object> call = link.getFavoriteCompanies(user_id);
+                call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                                companies = gson.fromJson(response.body().toString(), Company[].class);
+                                checker = true;
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                                checker = false;
+                        }
+                });
+                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                                if(checker != null){
+                                        Log.d("RESOURCES - ", "FAVORITE COMPANIES GOT? " + checker.toString());
+                                        cancel();
+                                }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
+                                cancel();
+                        }
+                };
+                waitForResponse.start();
+                if(companies != null){
+                        currentUser.setCompaniesLibrary(companies);
+                }
+                return companies;
+        }
 }
