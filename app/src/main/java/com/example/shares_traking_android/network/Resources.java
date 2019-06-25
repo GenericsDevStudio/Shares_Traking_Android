@@ -2,7 +2,6 @@ package com.example.shares_traking_android.network;
 
 import android.os.CountDownTimer;
 import android.util.Log;
-
 import com.example.shares_traking_android.model.Company;
 import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
@@ -18,6 +17,9 @@ public class Resources {
 
 
         // THIS CLASS IS A NETWORK METHODS STORAGE //
+
+        // CHECK LOGS FOR DEBUGGING //
+        // PAY ATTENTION TO COMMENTS //
 
 
         private static User currentUser;
