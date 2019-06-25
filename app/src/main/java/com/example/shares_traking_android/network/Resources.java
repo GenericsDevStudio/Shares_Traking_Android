@@ -252,9 +252,39 @@ public class Resources {
         // UPDATES NOTHING //
 
         public static Company[] getCompanies(){
-                return null;
-                // TODO
-                // Waiting for server method fix :3
+                checker = null;
+                companies = null;
+                Call<Object> call = link.getCompanies();
+                call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                                companies = gson.fromJson(response.body().toString(), Company[].class);
+                                checker = true;
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                                companies = null;
+                                checker = false;
+                        }
+                });
+                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                                if(checker != null){
+                                        Log.d("RESOURCES - ", "COMPANIES GOT? " + checker.toString());
+                                        cancel();
+                                }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
+                                cancel();
+                        }
+                };
+                waitForResponse.start();
+                return companies;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -399,6 +429,7 @@ public class Resources {
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
+                                companies = null;
                                 checker = false;
                         }
                 });
