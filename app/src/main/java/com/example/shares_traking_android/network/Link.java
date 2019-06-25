@@ -46,4 +46,7 @@ public interface Link {
 
     @GET("shares")
     Call<Object> getShares();
+
+    @GET("shares/companies")
+    Call<Object> getCompanies();
 }

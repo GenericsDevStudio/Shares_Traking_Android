@@ -1,6 +1,7 @@
 package com.example.shares_traking_android.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class User {
 
@@ -55,4 +56,11 @@ public class User {
     public String getEmail() { return email; }
 
     public int getId() { return id; }
+
+    // SETTERS //
+
+    public void setLibrary(Share[] shares) {
+        library.clear();
+        library.addAll(Arrays.asList(shares));
+    }
 }

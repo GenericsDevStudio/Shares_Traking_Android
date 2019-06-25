@@ -6,6 +6,13 @@ import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -123,7 +130,6 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE, TRUE IF UPDATED & FALSE IF NOT !! //
         // !! UPDATES CURRENT USER !! //
 
-
         public static Boolean updateUser(String name, String email, String password, int id){
                 Call<Object> call = link.updateUser(id, name, email, password);
                 checker = null;
@@ -201,8 +207,10 @@ public class Resources {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET SHARES
+
         // !! UPDATES USER LIBRARY !! //
         // RETURNS NULL ON FAILURE !! //
+
         public static Share[] getShares(){
                 shares = null;
                 checker = null;
@@ -236,8 +244,14 @@ public class Resources {
                         }
                 };
                 waitForResponse.start();
+                if(shares != null){
+                        currentUser.setLibrary(shares);
+                }
                 return shares;
         }
 
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // GET COMPANIES
+        //
+        
 }
