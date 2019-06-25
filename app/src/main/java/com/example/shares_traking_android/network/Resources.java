@@ -2,7 +2,6 @@ package com.example.shares_traking_android.network;
 
 import android.os.CountDownTimer;
 import android.util.Log;
-
 import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
 import com.google.gson.Gson;
@@ -239,5 +238,6 @@ public class Resources {
                 waitForResponse.start();
                 return shares;
         }
+
 
 }

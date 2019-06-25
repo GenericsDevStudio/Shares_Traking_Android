@@ -30,6 +30,8 @@ public class Share {
     // GETTERS //
 
 
+    public int getId() { return id; }
+
     public String getSymbol() { return symbol; }
 
     public String getName() { return name; }

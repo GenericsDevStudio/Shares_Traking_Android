@@ -4,31 +4,28 @@ import android.widget.ImageView;
 
 public class Company {
 
-    Company(String name, String description, int rating, ImageView logo){
+    public Company(int id, String name, String symbol) {
+        this.id = id;
         this.name = name;
-        this.description = description;
-        this.rating = rating;
-        this.logo = logo;
+        this.symbol = symbol;
     }
-
 
     // FIELDS //
 
+    private int id;
     private String name;
-    private String description;
-    private int rating;
+    private String symbol;
     private ImageView logo;
 
 
     // GETTERS //
 
 
+    public int getId() { return id; }
+
     public String getName() { return name; }
 
-    public String getDescription() { return description; }
-
-    public int getRating() { return rating; }
+    public String getSymbol() { return symbol; }
 
     public ImageView getLogo() { return logo; }
-
 }
