@@ -335,7 +335,7 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET FAVORITE SHARES
 
-        // !! RETURNS NULL ON FAILURE !! //
+        // !! RETURNS NULL ON FAILURE, ARRAY ALSO CAN BE NULL !! //
         // UPDATES CURRENT USER LIBRARY //
 
         public static Share[] getFavoriteShares(int user_id){
@@ -375,5 +375,11 @@ public class Resources {
                 }
                 return shares;
         }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // GET FAVORITE COMPANIES
+
+        // !! RETURNS NULL ON FAILURE, ARRAY ALSO CAN BE NULL !! //
+        // UPDATES CURRENT USER LIBRARY //
 
 }
