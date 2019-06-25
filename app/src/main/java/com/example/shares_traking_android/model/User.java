@@ -1,10 +1,12 @@
 package com.example.shares_traking_android.model;
 
+import java.util.ArrayList;
+
 public class User {
 
     // FULL-STACK CONSTRUCTOR
 
-    User(String name, String email, String password, Share[] library, Settings currentSettings, int id){
+    User(String name, String email, String password, ArrayList<Share> library, Settings currentSettings, int id){
         this.name = name;
         this.email = email;
         this.password = password;

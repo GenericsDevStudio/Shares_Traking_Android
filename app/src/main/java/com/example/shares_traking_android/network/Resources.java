@@ -2,6 +2,8 @@ package com.example.shares_traking_android.network;
 
 import android.os.CountDownTimer;
 import android.util.Log;
+
+import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,8 +21,8 @@ public class Resources {
 
         private static User currentUser;
         //
-        private static Boolean userUpdated;
-        private static Boolean userDeleted;
+        private static Boolean checker;
+        private static Share[] shares;
         //
         private static final String SERVER_URL = "https://peaceful-springs-30870.herokuapp.com/api/v1/";
         private static Gson gson = new GsonBuilder().create();
@@ -125,25 +127,25 @@ public class Resources {
 
         public static Boolean updateUser(String name, String email, String password, int id){
                 Call<Object> call = link.updateUser(id, name, email, password);
-                userUpdated = null;
+                checker = null;
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                userUpdated = true;
+                                checker = true;
                                 Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                userUpdated = false;
+                                checker = false;
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
                 CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
                         @Override
                         public void onTick(long millisUntilFinished) {
-                                if(userUpdated != null){
-                                        Log.d("RESOURCES - ", "UPDATED? " + userUpdated.toString());
+                                if(checker != null){
+                                        Log.d("RESOURCES - ", "UPDATED? " + checker.toString());
                                         cancel();
                                 }
                         }
@@ -155,7 +157,7 @@ public class Resources {
                         }
                 };
                 waitForResponse.start();
-                return userUpdated;
+                return checker;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,25 +167,25 @@ public class Resources {
 
         public static Boolean deleteUser(int id){
                 Call<Object> call = link.deleteUser(id);
-                userDeleted = null;
+                checker = null;
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                userDeleted = true;
+                                checker = true;
                                 Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                userDeleted = false;
+                                checker = false;
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
                 CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
                         @Override
                         public void onTick(long millisUntilFinished) {
-                                if(userDeleted != null){
-                                        Log.d("RESOURCES - ", "DELETED? " + userDeleted.toString());
+                                if(checker != null){
+                                        Log.d("RESOURCES - ", "DELETED? " + checker.toString());
                                         cancel();
                                 }
                         }
@@ -195,8 +197,47 @@ public class Resources {
                         }
                 };
                 waitForResponse.start();
-                return userDeleted;
+                return checker;
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // GET SHARES
+        // !! UPDATES USER LIBRARY !! //
+        // RETURNS NULL ON FAILURE !! //
+        public static Share[] getShares(){
+                shares = null;
+                checker = null;
+                Call<Object> call = link.getShares();
+                call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                                shares = gson.fromJson(response.body().toString(), Share[].class);
+                                checker = true;
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                                shares = null;
+                                checker = false;
+                        }
+                });
+                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                                if(checker != null){
+                                        Log.d("RESOURCES - ", "SHARES GOT? " + checker.toString());
+                                        cancel();
+                                }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
+                                cancel();
+                        }
+                };
+                waitForResponse.start();
+                return shares;
+        }
 
 }

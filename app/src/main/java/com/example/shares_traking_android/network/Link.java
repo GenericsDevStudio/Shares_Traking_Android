@@ -43,4 +43,7 @@ public interface Link {
     Call<Object> deleteUser(
             @Path("id") int id
     );
+
+    @GET("shares")
+    Call<Object> getShares();
 }
