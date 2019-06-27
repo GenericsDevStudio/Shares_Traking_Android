@@ -51,13 +51,13 @@ public interface Link {
     Call<Object> getCompanies();
 
     @POST("users/{user_id}/favorites?")
-    Call<Object> createFavorite(
+    Call<Object> createFavoriteShare(
         @Path("user_id") int user_id,
         @Field("share_id") int share_id
     );
 
     @DELETE("users/{user_id}/favorites/remove?")
-    Call<Object> removeFavorite(
+    Call<Object> removeFavoriteShare(
             @Path("user_id") int user_id,
             @Field("share_id") int share_id
     );

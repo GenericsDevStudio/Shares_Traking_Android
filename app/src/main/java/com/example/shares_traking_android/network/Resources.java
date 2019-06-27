@@ -213,7 +213,7 @@ public class Resources {
 
         public static void createFavoriteShare(int user_id, int share_id, final CallBackAPI api){
                 checker = null;
-                Call<Object> call = link.createFavorite(user_id, share_id);
+                Call<Object> call = link.createFavoriteShare(user_id, share_id);
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
@@ -236,7 +236,7 @@ public class Resources {
 
         public static void removeFavoriteShare(int user_id, int share_id, final CallBackAPI api){
                 checker = null;
-                Call<Object> call = link.removeFavorite(user_id, share_id);
+                Call<Object> call = link.removeFavoriteShare(user_id, share_id);
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
