@@ -38,7 +38,17 @@ public class Resources {
 
         // METHODS //
 
+         // GETTERS
+
         public static User getCurrentUser() { return currentUser; }
+
+        public static Boolean getChecker() { return checker; }
+
+        public static Company[] getCompanies() { return companies; }
+
+        public static Share[] getShares() { return shares; }
+
+         // SETTERS
 
         static void setCurrentUser(User currentUser) {
                 if(currentUser == null){
@@ -180,21 +190,21 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE !! //
         // UPDATES NOTHING //
 
-        public static void getCompanies(CallBackAPI api){
+        public static void getCompanies(final CallBackAPI api){
                 checker = null;
                 companies = null;
                 Call<Object> call = link.getCompanies();
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                companies = gson.fromJson(response.body().toString(), Company[].class);
-                                checker = true;
+                                api.onResponse(response);
+                                Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                companies = null;
-                                checker = false;
+                                api.onFailure(t);
+                                Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
         }
@@ -205,18 +215,18 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE, TRUE IF CREATED AND FALSE IF NOT!! //
         // UPDATES NOTHING //
 
-        public static void createFavorite(int user_id, int share_id){
+        public static void createFavorite(int user_id, int share_id, final CallBackAPI api){
                 checker = null;
                 Call<Object> call = link.createFavorite(user_id, share_id);
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                checker = true;
+                                api.onResponse(response);
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                checker = false;
+                                api.onFailure(t);
                         }
                 });
         }

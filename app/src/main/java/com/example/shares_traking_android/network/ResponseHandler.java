@@ -2,11 +2,19 @@ package com.example.shares_traking_android.network;
 
 import android.util.Log;
 
+import com.example.shares_traking_android.model.Company;
 import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import retrofit2.Response;
+
+
+// THIS IS THE PLACE WHERE BACKEND MEETS UI
+
+// THIS CLASS IS A STORAGE OF CLASSES IMPLEMENTING INTERFACE
+// IMPLEMENT onResponse METHOD AT YOUR DISCRETION
+
 
 public class ResponseHandler {
 
@@ -111,12 +119,16 @@ public class ResponseHandler {
     private static CallBackAPI toGetCompanies = new CallBackAPI() {
         @Override
         public void onResponse(Response response) {
-
+            Resources.setCompanies(gson.fromJson(response.body().toString(), Company[].class));
+            Resources.setChecker(true);
+            // TODO
         }
 
         @Override
         public void onFailure(Throwable t) {
-
+            Resources.setCompanies(null);
+            Resources.setChecker(false);
+            Log.d("HANDLER - ", "ONFAILURE", t);
         }
     };
 
@@ -124,5 +136,19 @@ public class ResponseHandler {
 
     //////////////////////////////////////////
 
+    private static CallBackAPI toCreateFavorite = new CallBackAPI() {
+        @Override
+        public void onResponse(Response response) {
+            Resources.setChecker(true);
+            // TODO
+        }
 
+        @Override
+        public void onFailure(Throwable t) {
+            Resources.setChecker(false);
+            Log.d("HANDLER - ", "ONFAILURE", t);
+        }
+    };
+
+    public static CallBackAPI getToCreateFavorite() { return toCreateFavorite; }
 }
