@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 
 
-// TODO: IMPLEMENT SERVER METHODS AT YOUR OWN IN ResponseHandler.java
+// 
 //
 // SERVER METHOD CALL EXAMPLE:
 // Resources.registerUser("Sanya Teamlead", "SanyaTeamlead@defence.gov", "qwerty1234", new CallBackAPI() {
