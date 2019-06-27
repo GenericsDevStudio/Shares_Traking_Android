@@ -7,6 +7,8 @@ import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import retrofit2.Callback;
 import retrofit2.Response;
 
 
@@ -151,4 +153,27 @@ public class ResponseHandler {
     };
 
     public static CallBackAPI getToCreateFavorite() { return toCreateFavorite; }
+
+    //////////////////////////////////////////
+
+    private static CallBackAPI toRemoveFavorite = new CallBackAPI() {
+        @Override
+        public void onResponse(Response response) {
+            Resources.setChecker(true);
+            // TODO
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Resources.setChecker(false);
+            Log.d("HANDLER - ", "ONFAILURE", t);
+        }
+    };
+
+    public static CallBackAPI getToRemoveFavorite() { return toRemoveFavorite; }
+
+    //////////////////////////////////////////
+
+
+
 }

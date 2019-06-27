@@ -142,8 +142,6 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // DELETE USER
 
-
-
         public static void deleteUser(int id, final CallBackAPI api){
                 Call<Object> call = link.deleteUser(id);
                 checker = null;
@@ -187,7 +185,6 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET COMPANIES
 
-        // !! RETURNS NULL ON FAILURE !! //
         // UPDATES NOTHING //
 
         public static void getCompanies(final CallBackAPI api){
@@ -212,12 +209,34 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // CREATE FAVORITE
 
-        // !! RETURNS NULL ON FAILURE, TRUE IF CREATED AND FALSE IF NOT!! //
         // UPDATES NOTHING //
 
         public static void createFavorite(int user_id, int share_id, final CallBackAPI api){
                 checker = null;
                 Call<Object> call = link.createFavorite(user_id, share_id);
+                call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                                api.onResponse(response);
+                                Log.d("RESOURCES - ", "CONNECTION SUCCESS");
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                                api.onFailure(t);
+                                Log.d("RESOURCES - ", "CONNECTION FAILURE");
+                        }
+                });
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // REMOVE FAVORITE
+
+        // UPDATES NOTHING //
+
+        public static void removeFavorite(int user_id, int share_id, final CallBackAPI api){
+                checker = null;
+                Call<Object> call = link.removeFavorite(user_id, share_id);
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
@@ -232,31 +251,8 @@ public class Resources {
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-        // REMOVE FAVORITE
-
-        // !! RETURNS NULL ON FAILURE, TRUE IF REMOVED AND FALSE IF NOT!! //
-        // UPDATES NOTHING //
-
-        public static void removeFavorite(int user_id, int share_id){
-                checker = null;
-                Call<Object> call = link.removeFavorite(user_id, share_id);
-                call.enqueue(new Callback<Object>() {
-                        @Override
-                        public void onResponse(Call<Object> call, Response<Object> response) {
-                                checker = true;
-                        }
-
-                        @Override
-                        public void onFailure(Call<Object> call, Throwable t) {
-                                checker = false;
-                        }
-                });
-        }
-
-        ////////////////////////////////////////////////////////////////////////////////////////////
         // GET FAVORITE SHARES
 
-        // !! RETURNS NULL ON FAILURE, ARRAY ALSO CAN BE NULL !! //
         // UPDATES CURRENT USER SHARES LIBRARY //
 
         public static void getFavoriteShares(int user_id){
@@ -284,7 +280,6 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET FAVORITE COMPANIES
 
-        // !! RETURNS NULL ON FAILURE, ARRAY ALSO CAN BE NULL !! //
         // UPDATES CURRENT USER COMPANIES LIBRARY //
 
         public static void getFavoriteCompanies(int user_id){
