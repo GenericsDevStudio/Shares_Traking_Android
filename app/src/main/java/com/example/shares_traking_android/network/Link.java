@@ -2,11 +2,10 @@ package com.example.shares_traking_android.network;
 
 import retrofit2.Call;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Link {
 
@@ -15,23 +14,23 @@ public interface Link {
 
     @POST("users?")
     Call<Object> registerUser(
-            @Field("name") String name,
-            @Field("email") String email,
-            @Field("password") String password
+            @Query("name") String name,
+            @Query("email") String email,
+            @Query("password") String password
     );
 
     @GET("users/authorization?")
     Call<Object> loginUser(
-            @Field("email") String email,
-            @Field("password") String password
+            @Query("email") String email,
+            @Query("password") String password
     );
 
-    @PUT("users/{id}?")
+    @GET("users/{id}?")
     Call<Object> updateUser(
             @Path("id") int id,
-            @Field("name") String name,
-            @Field("email") String email,
-            @Field("password") String password
+            @Query("name") String name,
+            @Query("email") String email,
+            @Query("password") String password
     );
 
     @GET("users/{id}?")
@@ -53,13 +52,13 @@ public interface Link {
     @POST("users/{user_id}/favorites?")
     Call<Object> createFavoriteShare(
         @Path("user_id") int user_id,
-        @Field("share_id") int share_id
+        @Query("share_id") int share_id
     );
 
     @DELETE("users/{user_id}/favorites/remove?")
     Call<Object> removeFavoriteShare(
             @Path("user_id") int user_id,
-            @Field("share_id") int share_id
+            @Query("share_id") int share_id
     );
 
     @GET("users/{user_id}/favorites")

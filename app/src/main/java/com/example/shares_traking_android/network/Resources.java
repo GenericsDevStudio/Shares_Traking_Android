@@ -110,6 +110,7 @@ public class Resources {
 
         public static void updateUser(String name, String email, String password, int id, final CallBackAPI api){
                 Call<Object> call = link.updateUser(id, name, email, password);
+                Log.d("RESOURCES - ", call.request().toString());
                 checker = null;
                 call.enqueue(new Callback<Object>() {
                         @Override
