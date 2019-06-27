@@ -1,6 +1,5 @@
 package com.example.shares_traking_android.network;
 
-import android.os.CountDownTimer;
 import android.util.Log;
 import com.example.shares_traking_android.model.Company;
 import com.example.shares_traking_android.model.Share;
@@ -19,8 +18,7 @@ public class Resources {
         // THIS CLASS IS A NETWORK METHODS STORAGE //
 
         // CHECK LOGS FOR DEBUGGING //
-        // PAY ATTENTION TO COMMENTS //
-
+        // DO NOT MODIFY RESOURCES, IMPLEMENT METHODS IN ResponseHandler.java
 
         private static User currentUser;
         //
@@ -73,8 +71,6 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // REGISTRATION
 
-        // !! UPDATES CURRENT USER !! //
-
         public static void registerUser(String name, String email, String password, final CallBackAPI api){
                 Call<Object> call = link.registerUser(name, email, password);
                 currentUser = null;
@@ -96,8 +92,6 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // LOGIN
 
-        // !! UPDATES CURRENT USER !! //
-
         public static void loginUser(String email, String password, final CallBackAPI api){
                 Call<Object> call = link.loginUser(email, password);
                 currentUser = null;
@@ -118,8 +112,6 @@ public class Resources {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // UPDATE USER
-
-        // !! UPDATES CURRENT USER !! //
 
         public static void updateUser(String name, String email, String password, int id, final CallBackAPI api){
                 Call<Object> call = link.updateUser(id, name, email, password);
@@ -185,8 +177,6 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET COMPANIES
 
-        // UPDATES NOTHING //
-
         public static void getCompanies(final CallBackAPI api){
                 checker = null;
                 companies = null;
@@ -209,8 +199,6 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // CREATE FAVORITE
 
-        // UPDATES NOTHING //
-
         public static void createFavoriteShare(int user_id, int share_id, final CallBackAPI api){
                 checker = null;
                 Call<Object> call = link.createFavoriteShare(user_id, share_id);
@@ -231,8 +219,6 @@ public class Resources {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // REMOVE FAVORITE
-
-        // UPDATES NOTHING //
 
         public static void removeFavoriteShare(int user_id, int share_id, final CallBackAPI api){
                 checker = null;
@@ -256,8 +242,6 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET FAVORITE SHARES
 
-        // UPDATES CURRENT USER SHARES LIBRARY //
-
         public static void getFavoriteShares(int user_id, final CallBackAPI api){
                 shares = null;
                 checker = null;
@@ -279,8 +263,6 @@ public class Resources {
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET FAVORITE COMPANIES
-
-        // UPDATES CURRENT USER COMPANIES LIBRARY //
 
         public static void getFavoriteCompanies(int user_id, final CallBackAPI api){
                 companies = null;
