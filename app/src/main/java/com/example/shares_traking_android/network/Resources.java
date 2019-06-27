@@ -241,11 +241,14 @@ public class Resources {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
                                 api.onResponse(response);
+                                Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
                                 api.onFailure(t);
+                                Log.d("RESOURCES - ", "CONNECTION FAILURE");
+
                         }
                 });
         }
@@ -255,26 +258,23 @@ public class Resources {
 
         // UPDATES CURRENT USER SHARES LIBRARY //
 
-        public static void getFavoriteShares(int user_id){
+        public static void getFavoriteShares(int user_id, final CallBackAPI api){
                 shares = null;
                 checker = null;
                 Call<Object> call = link.getFavoriteShares(user_id);
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                shares = gson.fromJson(response.body().toString(), Share[].class);
-                                checker = true;
+                                api.onResponse(response);
+                                Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                shares = null;
-                                checker = false;
+                                api.onFailure(t);
+                                Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                if(shares != null){
-                        currentUser.setSharesLibrary(shares);
-                }
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -282,7 +282,7 @@ public class Resources {
 
         // UPDATES CURRENT USER COMPANIES LIBRARY //
 
-        public static void getFavoriteCompanies(int user_id){
+        public static void getFavoriteCompanies(int user_id, final CallBackAPI api){
                 companies = null;
                 checker = null;
                 Call<Object> call = link.getFavoriteCompanies(user_id);

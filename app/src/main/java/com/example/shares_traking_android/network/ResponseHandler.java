@@ -7,8 +7,6 @@ import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import retrofit2.Callback;
 import retrofit2.Response;
 
 
@@ -174,6 +172,38 @@ public class ResponseHandler {
 
     //////////////////////////////////////////
 
+    private static CallBackAPI toGetFavoriteShares = new CallBackAPI() {
+        @Override
+        public void onResponse(Response response) {
+            Resources.getCurrentUser().setSharesLibrary(gson.fromJson(response.body().toString(), Share[].class));
+            Resources.setChecker(true);
+            // TODO
+        }
 
+        @Override
+        public void onFailure(Throwable t) {
+            Resources.getCurrentUser().setSharesLibrary(null);
+            Resources.setChecker(false);
+            Log.d("HANDLER - ", "ONFAILURE", t);
+        }
+    };
+
+    public static CallBackAPI getToGetFavoriteShares() { return toGetFavoriteShares; }
+
+    //////////////////////////////////////////
+
+    private static CallBackAPI toGetFavoriteCompanies = new CallBackAPI() {
+        @Override
+        public void onResponse(Response response) {
+
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+
+        }
+    };
+
+    public static CallBackAPI getToGetFavoriteCompanies() { return toGetFavoriteCompanies; }
 
 }
