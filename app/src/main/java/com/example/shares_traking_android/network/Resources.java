@@ -15,11 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Resources {
 
 
-        // THIS CLASS IS A NETWORK METHODS STORAGE //
-
-        // CHECK LOGS FOR DEBUGGING //
-        // DO NOT MODIFY RESOURCES, IMPLEMENT METHODS IN ResponseHandler.java
-
         private static User currentUser;
         //
         private static Boolean checker;

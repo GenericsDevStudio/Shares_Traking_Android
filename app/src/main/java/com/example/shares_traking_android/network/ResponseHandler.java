@@ -1,7 +1,6 @@
 package com.example.shares_traking_android.network;
 
 import android.util.Log;
-
 import com.example.shares_traking_android.model.Company;
 import com.example.shares_traking_android.model.Share;
 import com.example.shares_traking_android.model.User;
@@ -9,12 +8,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import retrofit2.Response;
 
-
-// THIS IS THE PLACE WHERE BACKEND MEETS UI
-
-// THIS CLASS IS A STORAGE OF CLASSES IMPLEMENTING INTERFACE
-// IMPLEMENT onResponse METHOD AT YOUR DISCRETION
-
+// THIS CLASS IS A STORAGE OF RETROFIT METHODS IMPLEMENTATIONS WITHOUT ADDITIONAL ACTIONS
+// YOU CAN USE IT AS EXAMPLE OR/AND AS DEFAULT METHOD CALL
 
 public class ResponseHandler {
 
@@ -28,7 +23,6 @@ public class ResponseHandler {
         @Override
         public void onResponse(Response response) {
             Resources.setCurrentUser(gson.fromJson(response.body().toString(), User.class));
-            // TODO
         }
 
         @Override
@@ -46,7 +40,6 @@ public class ResponseHandler {
         @Override
         public void onResponse(Response response) {
             Resources.setCurrentUser(gson.fromJson(response.body().toString(), User.class));
-            // TODO
         }
 
         @Override
@@ -64,7 +57,6 @@ public class ResponseHandler {
         @Override
         public void onResponse(Response response) {
             Resources.setChecker(true);
-            // TODO
         }
 
         @Override
@@ -82,7 +74,6 @@ public class ResponseHandler {
         @Override
         public void onResponse(Response response) {
             Resources.setChecker(true);
-            // TODO
         }
 
         @Override
@@ -101,7 +92,6 @@ public class ResponseHandler {
         public void onResponse(Response response) {
             Resources.setShares(gson.fromJson(response.body().toString(), Share[].class));
             Resources.setChecker(true);
-            // TODO
         }
 
         @Override
@@ -121,7 +111,6 @@ public class ResponseHandler {
         public void onResponse(Response response) {
             Resources.setCompanies(gson.fromJson(response.body().toString(), Company[].class));
             Resources.setChecker(true);
-            // TODO
         }
 
         @Override
@@ -140,7 +129,6 @@ public class ResponseHandler {
         @Override
         public void onResponse(Response response) {
             Resources.setChecker(true);
-            // TODO
         }
 
         @Override
@@ -158,7 +146,6 @@ public class ResponseHandler {
         @Override
         public void onResponse(Response response) {
             Resources.setChecker(true);
-            // TODO
         }
 
         @Override
@@ -177,7 +164,6 @@ public class ResponseHandler {
         public void onResponse(Response response) {
             Resources.getCurrentUser().setSharesLibrary(gson.fromJson(response.body().toString(), Share[].class));
             Resources.setChecker(true);
-            // TODO
         }
 
         @Override
@@ -197,7 +183,6 @@ public class ResponseHandler {
         public void onResponse(Response response) {
             Resources.getCurrentUser().setCompaniesLibrary(gson.fromJson(response.body().toString(), Company[].class));
             Resources.setChecker(true);
-            // TODO
         }
 
         @Override
