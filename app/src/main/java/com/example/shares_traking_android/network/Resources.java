@@ -40,44 +40,48 @@ public class Resources {
 
         public static User getCurrentUser() { return currentUser; }
 
+        static void setCurrentUser(User currentUser) {
+                if(currentUser == null){
+                        Resources.currentUser = currentUser;
+                }else{
+                        // ACCESS DENIED YOU STUPID HACKER
+                }
+        }
+
+        static void setChecker(Boolean checker) {
+                Resources.checker = checker;
+        }
+
+        static void setShares(Share[] shares) {
+                Resources.shares = shares;
+        }
+
+        static void setCompanies(Company[] companies) {
+                Resources.companies = companies;
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////
         // REGISTRATION
 
         // !! RETURNS NULL ON FAILURE !! //
         // !! UPDATES CURRENT USER !! //
 
-        public static User registerUser(String name, String email, String password){
+        public static User registerUser(String name, String email, String password, final CallBackAPI api){
                 Call<Object> call = link.registerUser(name, email, password);
                 currentUser = null;
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                currentUser = gson.fromJson(response.body().toString(), User.class);
+                                api.onResponse(response);
                                 Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                currentUser = null;
+                                api.onFailure(t);
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(currentUser != null){
-                                        Log.d("RESOURCES - ", "USER REGISTERED");
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 return currentUser;
         }
 
@@ -87,38 +91,22 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE !! //
         // !! UPDATES CURRENT USER !! //
 
-        public static User loginUser(String email, String password){
+        public static User loginUser(String email, String password, final CallBackAPI api){
                 Call<Object> call = link.loginUser(email, password);
                 currentUser = null;
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                currentUser = gson.fromJson(response.body().toString(), User.class);
+                                api.onResponse(response);
                                 Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                currentUser = null;
+                                api.onFailure(t);
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(currentUser != null){
-                                        Log.d("RESOURCES - ", "USER LOGGED IN");
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 return currentUser;
         }
 
@@ -128,38 +116,22 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE, TRUE IF UPDATED & FALSE IF NOT !! //
         // !! UPDATES CURRENT USER !! //
 
-        public static Boolean updateUser(String name, String email, String password, int id){
+        public static Boolean updateUser(String name, String email, String password, int id, final CallBackAPI api){
                 Call<Object> call = link.updateUser(id, name, email, password);
                 checker = null;
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                checker = true;
+                                api.onResponse(response);
                                 Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                checker = false;
+                                api.onFailure(t);
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(checker != null){
-                                        Log.d("RESOURCES - ", "UPDATED? " + checker.toString());
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 return checker;
         }
 
@@ -168,38 +140,22 @@ public class Resources {
 
         // !! RETURNS NULL ON FAILURE, TRUE IF DELETED, FALSE IF NOT //
 
-        public static Boolean deleteUser(int id){
+        public static Boolean deleteUser(int id, final CallBackAPI api){
                 Call<Object> call = link.deleteUser(id);
                 checker = null;
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                checker = true;
+                                api.onResponse(response);
                                 Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                checker = false;
+                                api.onFailure(t);
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(checker != null){
-                                        Log.d("RESOURCES - ", "DELETED? " + checker.toString());
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 return checker;
         }
 
@@ -209,39 +165,23 @@ public class Resources {
         // UPDATES NOTHING //
         // !! RETURNS NULL ON FAILURE !! //
 
-        public static Share[] getShares(){
+        public static Share[] getShares(final CallBackAPI api){
                 shares = null;
                 checker = null;
                 Call<Object> call = link.getShares();
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                shares = gson.fromJson(response.body().toString(), Share[].class);
-                                checker = true;
+                                api.onResponse(response);
+                                Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                shares = null;
-                                checker = false;
+                                api.onFailure(t);
+                                Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(checker != null){
-                                        Log.d("RESOURCES - ", "SHARES GOT? " + checker.toString());
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 return shares;
         }
 
@@ -251,7 +191,7 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE !! //
         // UPDATES NOTHING //
 
-        public static Company[] getCompanies(){
+        public static Company[] getCompanies(CallBackAPI api){
                 checker = null;
                 companies = null;
                 Call<Object> call = link.getCompanies();
@@ -268,22 +208,6 @@ public class Resources {
                                 checker = false;
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(checker != null){
-                                        Log.d("RESOURCES - ", "COMPANIES GOT? " + checker.toString());
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 return companies;
         }
 
@@ -307,22 +231,6 @@ public class Resources {
                                 checker = false;
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(checker != null){
-                                        Log.d("RESOURCES - ", "FAVORITE CREATED? " + checker.toString());
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 return checker;
         }
 
@@ -346,22 +254,6 @@ public class Resources {
                                 checker = false;
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(checker != null){
-                                        Log.d("RESOURCES - ", "FAVORITE REMOVED? " + checker.toString());
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 return checker;
         }
 
@@ -388,22 +280,6 @@ public class Resources {
                                 checker = false;
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(checker != null){
-                                        Log.d("RESOURCES - ", "FAVORITE SHARES GOT? " + checker.toString());
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 if(shares != null){
                         currentUser.setSharesLibrary(shares);
                 }
@@ -433,22 +309,6 @@ public class Resources {
                                 checker = false;
                         }
                 });
-                CountDownTimer waitForResponse = new CountDownTimer(5000, 10) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                                if(checker != null){
-                                        Log.d("RESOURCES - ", "FAVORITE COMPANIES GOT? " + checker.toString());
-                                        cancel();
-                                }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                                Log.d("RESOURCES - ", "CONNECTION TIMEOUT");
-                                cancel();
-                        }
-                };
-                waitForResponse.start();
                 if(companies != null){
                         currentUser.setCompaniesLibrary(companies);
                 }
