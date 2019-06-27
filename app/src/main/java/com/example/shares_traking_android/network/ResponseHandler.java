@@ -195,12 +195,16 @@ public class ResponseHandler {
     private static CallBackAPI toGetFavoriteCompanies = new CallBackAPI() {
         @Override
         public void onResponse(Response response) {
-
+            Resources.getCurrentUser().setCompaniesLibrary(gson.fromJson(response.body().toString(), Company[].class));
+            Resources.setChecker(true);
+            // TODO
         }
 
         @Override
         public void onFailure(Throwable t) {
-
+            Resources.getCurrentUser().setCompaniesLibrary(null);
+            Resources.setChecker(false);
+            Log.d("HANDLER - ", "ONFAILURE", t);
         }
     };
 

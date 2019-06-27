@@ -211,7 +211,7 @@ public class Resources {
 
         // UPDATES NOTHING //
 
-        public static void createFavorite(int user_id, int share_id, final CallBackAPI api){
+        public static void createFavoriteShare(int user_id, int share_id, final CallBackAPI api){
                 checker = null;
                 Call<Object> call = link.createFavorite(user_id, share_id);
                 call.enqueue(new Callback<Object>() {
@@ -234,7 +234,7 @@ public class Resources {
 
         // UPDATES NOTHING //
 
-        public static void removeFavorite(int user_id, int share_id, final CallBackAPI api){
+        public static void removeFavoriteShare(int user_id, int share_id, final CallBackAPI api){
                 checker = null;
                 Call<Object> call = link.removeFavorite(user_id, share_id);
                 call.enqueue(new Callback<Object>() {
@@ -289,18 +289,15 @@ public class Resources {
                 call.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(Call<Object> call, Response<Object> response) {
-                                companies = gson.fromJson(response.body().toString(), Company[].class);
-                                checker = true;
+                                api.onResponse(response);
+                                Log.d("RESOURCES - ", "CONNECTION SUCCESS");
                         }
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
-                                companies = null;
-                                checker = false;
+                                api.onFailure(t);
+                                Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                if(companies != null){
-                        currentUser.setCompaniesLibrary(companies);
-                }
         }
 }
