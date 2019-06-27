@@ -63,10 +63,9 @@ public class Resources {
         ////////////////////////////////////////////////////////////////////////////////////////////
         // REGISTRATION
 
-        // !! RETURNS NULL ON FAILURE !! //
         // !! UPDATES CURRENT USER !! //
 
-        public static User registerUser(String name, String email, String password, final CallBackAPI api){
+        public static void registerUser(String name, String email, String password, final CallBackAPI api){
                 Call<Object> call = link.registerUser(name, email, password);
                 currentUser = null;
                 call.enqueue(new Callback<Object>() {
@@ -82,16 +81,14 @@ public class Resources {
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                return currentUser;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // LOGIN
 
-        // !! RETURNS NULL ON FAILURE !! //
         // !! UPDATES CURRENT USER !! //
 
-        public static User loginUser(String email, String password, final CallBackAPI api){
+        public static void loginUser(String email, String password, final CallBackAPI api){
                 Call<Object> call = link.loginUser(email, password);
                 currentUser = null;
                 call.enqueue(new Callback<Object>() {
@@ -107,16 +104,14 @@ public class Resources {
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                return currentUser;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // UPDATE USER
 
-        // !! RETURNS NULL ON FAILURE, TRUE IF UPDATED & FALSE IF NOT !! //
         // !! UPDATES CURRENT USER !! //
 
-        public static Boolean updateUser(String name, String email, String password, int id, final CallBackAPI api){
+        public static void updateUser(String name, String email, String password, int id, final CallBackAPI api){
                 Call<Object> call = link.updateUser(id, name, email, password);
                 checker = null;
                 call.enqueue(new Callback<Object>() {
@@ -132,15 +127,14 @@ public class Resources {
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                return checker;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // DELETE USER
 
-        // !! RETURNS NULL ON FAILURE, TRUE IF DELETED, FALSE IF NOT //
 
-        public static Boolean deleteUser(int id, final CallBackAPI api){
+
+        public static void deleteUser(int id, final CallBackAPI api){
                 Call<Object> call = link.deleteUser(id);
                 checker = null;
                 call.enqueue(new Callback<Object>() {
@@ -156,16 +150,12 @@ public class Resources {
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                return checker;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         // GET SHARES
 
-        // UPDATES NOTHING //
-        // !! RETURNS NULL ON FAILURE !! //
-
-        public static Share[] getShares(final CallBackAPI api){
+        public static void getShares(final CallBackAPI api){
                 shares = null;
                 checker = null;
                 Call<Object> call = link.getShares();
@@ -182,7 +172,6 @@ public class Resources {
                                 Log.d("RESOURCES - ", "CONNECTION FAILURE");
                         }
                 });
-                return shares;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -191,7 +180,7 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE !! //
         // UPDATES NOTHING //
 
-        public static Company[] getCompanies(CallBackAPI api){
+        public static void getCompanies(CallBackAPI api){
                 checker = null;
                 companies = null;
                 Call<Object> call = link.getCompanies();
@@ -208,7 +197,6 @@ public class Resources {
                                 checker = false;
                         }
                 });
-                return companies;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,7 +205,7 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE, TRUE IF CREATED AND FALSE IF NOT!! //
         // UPDATES NOTHING //
 
-        public static Boolean createFavorite(int user_id, int share_id){
+        public static void createFavorite(int user_id, int share_id){
                 checker = null;
                 Call<Object> call = link.createFavorite(user_id, share_id);
                 call.enqueue(new Callback<Object>() {
@@ -231,7 +219,6 @@ public class Resources {
                                 checker = false;
                         }
                 });
-                return checker;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -240,7 +227,7 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE, TRUE IF REMOVED AND FALSE IF NOT!! //
         // UPDATES NOTHING //
 
-        public static Boolean removeFavorite(int user_id, int share_id){
+        public static void removeFavorite(int user_id, int share_id){
                 checker = null;
                 Call<Object> call = link.removeFavorite(user_id, share_id);
                 call.enqueue(new Callback<Object>() {
@@ -254,7 +241,6 @@ public class Resources {
                                 checker = false;
                         }
                 });
-                return checker;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,7 +249,7 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE, ARRAY ALSO CAN BE NULL !! //
         // UPDATES CURRENT USER SHARES LIBRARY //
 
-        public static Share[] getFavoriteShares(int user_id){
+        public static void getFavoriteShares(int user_id){
                 shares = null;
                 checker = null;
                 Call<Object> call = link.getFavoriteShares(user_id);
@@ -283,7 +269,6 @@ public class Resources {
                 if(shares != null){
                         currentUser.setSharesLibrary(shares);
                 }
-                return shares;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,7 +277,7 @@ public class Resources {
         // !! RETURNS NULL ON FAILURE, ARRAY ALSO CAN BE NULL !! //
         // UPDATES CURRENT USER COMPANIES LIBRARY //
 
-        public static Company[] getFavoriteCompanies(int user_id){
+        public static void getFavoriteCompanies(int user_id){
                 companies = null;
                 checker = null;
                 Call<Object> call = link.getFavoriteCompanies(user_id);
@@ -312,6 +297,5 @@ public class Resources {
                 if(companies != null){
                         currentUser.setCompaniesLibrary(companies);
                 }
-                return companies;
         }
 }
